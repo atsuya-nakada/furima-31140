@@ -24,7 +24,6 @@
 | user             | references | null: false, foreign_key: true |
 | name             | string     | null: false                    |
 | description      | text       | null: false                    |
-| images           | string     | null: false                    |
 | category_id      | integer    | null: false                    |
 | condition_id     | integer    | null: false                    |
 | postage_payer_id | integer    | null: false                    |
@@ -34,7 +33,7 @@
 
 ### Association
 - belongs_to :user
-- has_one :purchases
+- has_one :purchase
 - belongs_to_active_hash :category
 - belongs_to_active_hash :condition
 - belongs_to_active_hash :handling_time
