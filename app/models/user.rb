@@ -5,12 +5,15 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :nickname, presence: true
-  validates :encrypted_password,     presence: true, length: { minimum: 6 }
-  kanji = /\A[一-龥]+\z/
-  validates :last_name, presence: true, format: { with: kanji }
-  validates :first_name, presence: true, format: { with: kanji }
-  kana = /\A[ァ-ヶー－]+\z/
-  validates :last_name_kana, presence: true, format: {with: kana}
-  validates :first_name_kana, presence: true, format: {with: kana}
+  with_options presence: true do
+    VALID_PASSWORD_REGEX = /\A[a-z0-9]+\z/i
+    validates :encrypted_password, format: { with: VALID_PASSWORD_REGEX }, length: { minimum: 6 }
+    kanji = /\A[一-龥]+\z/
+    validates :last_name, format: { with: kanji }
+    validates :first_name, format: { with: kanji } 
+    kana = /\A[ァ-ヶー－]+\z/
+    validates :last_name_kana, format: {with: kana}
+    validates :first_name_kana, format: {with: kana}
+  end
   validates :birth_date, presence: true
 end
