@@ -4,16 +4,17 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :nickname, presence: true
   with_options presence: true do
+    validates :nickname
     VALID_PASSWORD_REGEX = /\A[a-z0-9]+\z/i
-    validates :encrypted_password, format: { with: VALID_PASSWORD_REGEX }, length: { minimum: 6 }
+    validates :password, format: { with: VALID_PASSWORD_REGEX }, length: { minimum: 6 }
+    validates :password_confirmation, format: { with: VALID_PASSWORD_REGEX }, length: { minimum: 6 }
     kanji = /\A[一-龥]+\z/
     validates :last_name, format: { with: kanji }
     validates :first_name, format: { with: kanji } 
     kana = /\A[ァ-ヶー－]+\z/
     validates :last_name_kana, format: {with: kana}
     validates :first_name_kana, format: {with: kana}
+    validates :birth_date
   end
-  validates :birth_date, presence: true
 end

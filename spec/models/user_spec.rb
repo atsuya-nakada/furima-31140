@@ -8,7 +8,6 @@ RSpec.describe User, type: :model do
 
     it "全ての項目の入力が存在すれば登録できること" do
       @user
-      @user.valid?
       expect(@user).to be_valid
     end
 
@@ -60,10 +59,10 @@ RSpec.describe User, type: :model do
       expect(@user.errors.full_messages).to include("Birth date can't be blank")
     end
 
-    it "encrypted_passwordが空では登録できないこと" do
-      @user.encrypted_password = nil
+    it "password_confirmationが空では登録できないこと" do
+      @user.password_confirmation = nil
       @user.valid?
-      expect(@user.errors.full_messages).to include("Encrypted password can't be blank", "Encrypted password is too short (minimum is 6 characters)")
+      expect(@user.errors.full_messages).to include("Password confirmation can't be blank", "Password confirmation is invalid", "Password confirmation is too short (minimum is 6 characters)")
     end
 
     it "重複したemailが存在する場合登録できないこと" do
@@ -74,21 +73,21 @@ RSpec.describe User, type: :model do
     end
 
     it "passwordが6文字以上であれば登録できること" do
-      @user.password = "123456"
-      @user.password_confirmation = "123456"
+      @user.password = "atsu7011"
+      @user.password_confirmation = "atsu7011"
       expect(@user).to be_valid
     end
 
     it "passwordが5文字以下であれば登録できないこと" do
-      @user.password = "12345"
-      @user.password_confirmation = "12345"
+      @user.password = "at702"
+      @user.password_confirmation = "at702"
       @user.valid?
-      expect(@user.errors.full_messages).to include("Password is too short (minimum is 6 characters)")
+      expect(@user.errors.full_messages).to include("Password is too short (minimum is 6 characters)", "Password is too short (minimum is 6 characters)", "Password confirmation is too short (minimum is 6 characters)")
     end
 
     it "passwordとpassword_confirmationが不一致では登録できないこと" do
-      @user.password = "123456"
-      @user.password_confirmation = "1234567"
+      @user.password = "atsu7011"
+      @user.password_confirmation = "atsu711"
       @user.valid?
       expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
     end

@@ -8,6 +8,6 @@ FactoryBot.define do
     birth_date                     { "2000-01-01" }
     email                          { "sample7011@gmail.com" }
     password                       { "atsu7011" }
-    encrypted_password             { "atsu7011" }
+    password_confirmation          { "atsu7011" }
   end
-end
+end 
