@@ -19,7 +19,7 @@ class Item < ApplicationRecord
     validates :postage_payer
     validates :prefecture
     number = /\A[0-9]+\z/
-    validates :price, numericality: { with: number }
+    validates :price, numericality: { with: number, :greater_than_or_equal_to => 300, :less_than_or_equal_to => 9999999}
   end
   validates :category_id, :condition_id, :handleng_time_id, :postage_payer_id, :prefecture_id, numericality: { other_than: 1 }
 end

@@ -56,7 +56,6 @@ RSpec.describe Item, type: :model do
     it "priceが空だと登録できない" do
       @item.price = ""
       @item.valid?
-      binding.pry
       expect(@item.errors.full_messages).to include("Price can't be blank", "Price is not a number")
     end
 
@@ -67,31 +66,31 @@ RSpec.describe Item, type: :model do
     end
 
     it "category_idが1の値だと登録できない" do
-      @item.category_id = "1"
+      @item.category_id = 1
       @item.valid?
       expect(@item.errors.full_messages).to include("Category must be other than 1")
     end
 
     it "condition_idが1の値だと登録できない" do
-      @item.condition_id = "1"
+      @item.condition_id = 1
       @item.valid?
       expect(@item.errors.full_messages).to include("Condition must be other than 1")
     end
 
     it "handleng_time_idが1の値だと登録できない" do
-      @item.handleng_time_id = "1"
+      @item.handleng_time_id = 1
       @item.valid?
       expect(@item.errors.full_messages).to include("Handleng time must be other than 1")
     end
 
     it "postage_payer_idが1の値だと登録できない" do
-      @item.postage_payer_id = "1"
+      @item.postage_payer_id = 1
       @item.valid?
       expect(@item.errors.full_messages).to include("Postage payer must be other than 1")
     end
 
     it "prefecture_idが1の値だと登録できない" do
-      @item.prefecture_id = "1"
+      @item.prefecture_id = 1
       @item.valid?
       expect(@item.errors.full_messages).to include("Prefecture must be other than 1")
     end
@@ -100,6 +99,18 @@ RSpec.describe Item, type: :model do
       @item.price = "７００"
       @item.valid?
       expect(@item.errors.full_messages).to include("Price is not a number")
+    end
+
+    it "priceが¥300未満だと登録できない" do
+      @item.price = 299
+      @item.valid?
+      expect(@item.errors.full_messages).to include("Price must be greater than or equal to 300")
+    end
+
+    it "priceが¥9,999,999よりも大きいと登録できない" do
+      @item.price = 100000000000000
+      @item.valid?
+      expect(@item.errors.full_messages).to include("Price must be less than or equal to 9999999")
     end
   end
 end
