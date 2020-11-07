@@ -1,14 +1,15 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :index ]
+  before_action :authenticate_user!, only: [:index ]
+  before_action :set_tweet, only: [:index, :create]
   def index
+    if current_user.id == @item.user_id || @item.order
+      redirect_to root_path
+    end
     @order = UserOrder.new
-    @item = Item.find(params[:item_id])
   end
 
   def create
     @order = UserOrder.new(order_params)
-    @item = Item.find(params[:item_id])
-    #binding.pry
     if @order.valid?
       pay_item
       @order.save
@@ -19,7 +20,6 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    @item = Item.find(params[:item_id])
     params.require(:user_order).permit(:city, :postal_code, :prefecture_id, :building_name, :house_number, :phone_number, :order_id).merge(user_id: current_user.id, item_id: @item[:id], token: params[:token])
   end
 
@@ -30,5 +30,9 @@ class OrdersController < ApplicationController
         card: order_params[:token],    
         currency: 'jpy'                 
       )
+  end
+
+  def set_tweet
+    @item = Item.find(params[:item_id])
   end
 end
