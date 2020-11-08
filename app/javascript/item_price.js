@@ -9,3 +9,4 @@ window.addEventListener('load', () => {
     profitNumber.innerHTML = (Math.floor(inputValue - value_result));
   })
 })
+
