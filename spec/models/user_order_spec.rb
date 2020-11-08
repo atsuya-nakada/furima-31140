@@ -53,7 +53,7 @@ RSpec.describe UserOrder, type: :model do
   end
 
   it "postal_codeがハイフンがないと登録できない" do
-    @order.postal_code = 2730044
+    @order.postal_code = "2730044"
     @order.valid?
     expect(@order.errors.full_messages).to include("Postal code is invalid")
   end
@@ -72,6 +72,12 @@ RSpec.describe UserOrder, type: :model do
 
   it "phone_numberが11桁以内でないと登録できない" do
     @order.phone_number = "０９０４４３３６９０７34"
+    @order.valid?
+    expect(@order.errors.full_messages).to include("Phone number is invalid")
+  end
+
+  it "phone_numberが11桁以内でないと登録できない" do
+    @order.phone_number = "090-4433-6079"
     @order.valid?
     expect(@order.errors.full_messages).to include("Phone number is invalid")
   end
